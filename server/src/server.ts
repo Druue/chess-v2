@@ -3,7 +3,8 @@ import * as WebSocket from 'ws';
 import * as http from 'http';
 import * as dotenv from 'dotenv';
 
-import { Colour, GameState, GameStatus, getConnId, Optional, O_BOARD, socketMap, S_PLAYER_B, S_PLAYER_W, S_YOUR_TURN } from './lib';
+import { getConnId, Colour, Optional, GameStatus, socketMap, O_BOARD, S_PLAYER_B, S_PLAYER_W, S_YOUR_TURN } from './lib/index';
+import { GameState } from './structs';
 
 const main = async () => {
   const app = express();

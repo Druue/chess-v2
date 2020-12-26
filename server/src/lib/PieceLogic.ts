@@ -1,4 +1,4 @@
-import { ChessPiece, GameBoard, Position } from './structs';
+import { ChessPiece, GameBoard, Position } from '../structs';
 import { Colour, Direction, Optional, PieceProps, PieceType, ValidationProps } from './types';
 
 /**

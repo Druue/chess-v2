@@ -1,5 +1,5 @@
-import * as WebSocket from "ws";
-import { socketMap } from "./types";
+import * as WebSocket from 'ws';
+import { socketMap } from './types';
 
 /**
  * Attempts to retrieve the id for the given websocket.
@@ -9,7 +9,7 @@ import { socketMap } from "./types";
  */
 export const getConnId = (conn: WebSocket): number => {
   const id = socketMap.get(conn);
-  if (id == null) throw new Error("Connection not found!");
+  if (id == null) throw new Error('Connection not found!');
   return id;
 };
 

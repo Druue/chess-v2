@@ -1,5 +1,6 @@
-import { O_BOARD, S_YOUR_TURN, T_MOVE_PIECE, Colour, Optional } from '..';
-import { ChessPiece, GameBoard, Player, Position } from '.';
+import { O_BOARD, S_YOUR_TURN, T_MOVE_PIECE } from '../lib/messages';
+import { Colour, Optional } from '../lib/types';
+import { ChessPiece, GameBoard, Player, Position } from './index';
 import * as WebSocket from 'ws';
 
 export class GameState {

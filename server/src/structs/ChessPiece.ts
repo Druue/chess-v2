@@ -1,5 +1,5 @@
-import { Colour, PieceType } from '..';
-import { Position } from '.';
+import { Colour, PieceType } from '../lib/types';
+import { Position } from './Position';
 
 export class ChessPiece {
   type: PieceType;

@@ -1,4 +1,4 @@
-import { ChessPiece, GameBoard, Position } from './structs';
+import { ChessPiece, GameBoard, Position } from '../structs';
 import * as WebSocket from 'ws';
 
 export type Optional<T> = T | null | undefined;

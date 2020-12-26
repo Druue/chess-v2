@@ -1,4 +1,5 @@
-import { Colour, GameBoard } from './';
+import { Colour } from './types';
+import { GameBoard } from '../structs';
 
 export const T_GAME_START = 'GAME-START';
 export const O_GAME_START = {

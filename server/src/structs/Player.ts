@@ -1,5 +1,5 @@
-import { Colour, PieceType } from '..';
-import { ChessPiece } from '.';
+import { Colour, PieceType } from '../lib/types';
+import { ChessPiece } from './ChessPiece';
 import WebSocket from 'ws';
 
 export class Player {

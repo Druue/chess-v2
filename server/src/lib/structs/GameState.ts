@@ -9,7 +9,7 @@ export class GameState {
   winner: Optional<Player>;
   gameBoard: GameBoard;
 
-	constructor(id: number, size: number = 8) {
+	constructor(id: number, size = 8) {
     this.id = id;
     this.playerWhite = null;
     this.playerBlack = null;
@@ -24,12 +24,12 @@ export class GameState {
    * @param target The target position to move to
    */
   public movePiece(start: Position, target: Position): void {
-    const cell: Optional<ChessPiece> = this.gameBoard.movePiece(start, target)
+    const cell: Optional<ChessPiece> = this.gameBoard.movePiece(start, target);
     if (!cell) return;
 
 		(cell.colour === Colour.White) 
-			? this.playerWhite?.capturePiece(cell)
-		  : this.playerBlack?.capturePiece(cell)
+      ? this.playerWhite?.capturePiece(cell)
+      : this.playerBlack?.capturePiece(cell);
   }
 
   /**
@@ -47,14 +47,14 @@ export class GameState {
    */
   public addPlayer = (playerId: WebSocket): string  => {
     if (!this.playerWhite) {
-			this.playerWhite = new Player(playerId, Colour.White)
-			return Colour.White
+			this.playerWhite = new Player(playerId, Colour.White);
+			return Colour.White;
 		} else if (!this.playerBlack) {
-			this.playerBlack = new Player(playerId, Colour.Black)
-			return Colour.Black
+			this.playerBlack = new Player(playerId, Colour.Black);
+			return Colour.Black;
     }
     
-    throw new Error("Game already full!");
+    throw new Error('Game already full!');
   }
 
   /**
@@ -70,11 +70,11 @@ export class GameState {
   }
 
   public messageHandler = (message: any, connection: WebSocket) => {
-    let currentPlayerIsWhite = this.playerWhite?.id === connection;
+    const currentPlayerIsWhite = this.playerWhite?.id === connection;
 
     switch (message.type) {
       case T_MOVE_PIECE:
-        this.movePiece(message.data.from, message.data.to)
+        this.movePiece(message.data.from, message.data.to);
         this.sendUpdatedBoard();
         currentPlayerIsWhite ? this.playerBlack?.id.send(S_YOUR_TURN) : this.playerWhite?.id.send(S_YOUR_TURN);
         break;

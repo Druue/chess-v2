@@ -1,5 +1,5 @@
-import { ChessPiece, Position } from ".";
-import { Colour, Optional, PIECES_ORDER, PieceType, getValidMoves} from "..";
+import { ChessPiece, Position } from '.';
+import { Colour, Optional, PIECES_ORDER, PieceType, getValidMoves} from '..';
 
 export class GameBoard {
   private gameBoard: Optional<ChessPiece>[][];
@@ -34,12 +34,12 @@ export class GameBoard {
    */
   public movePiece = (start: Position, target: Position): Optional<ChessPiece> => {
     if (!this.gameBoard[start.x][start.y])
-      throw new Error("No piece to move!");
+      throw new Error('No piece to move!');
 
-    let piece: Optional<ChessPiece> = this.gameBoard[start.x][start.y];
+    const piece: Optional<ChessPiece> = this.gameBoard[start.x][start.y];
 		this.gameBoard[start.x][start.y] = null;
 
-    let targetPiece: Optional<ChessPiece> = this.gameBoard[target.x][target.y];
+    const targetPiece: Optional<ChessPiece> = this.gameBoard[target.x][target.y];
 		this.gameBoard[target.x][target.y] = piece;
     piece?.move(target);
     
@@ -54,7 +54,7 @@ export class GameBoard {
    * @returns A 2D array optionally containing chess pieces.
    */
   private generateEmptyBoard = (size: number): Optional<ChessPiece>[][] => Array(size).fill(null).map(
-      (_, i) => Array(size).fill(null).map((_, j) => this.pieceMapper(i, j)))
+      (_x, i) => Array(size).fill(null).map((_y, j) => this.pieceMapper(i, j)))
 
   /**
    * Maps chess pieces to where they should start on the chess board.
@@ -66,13 +66,13 @@ export class GameBoard {
    */
   private pieceMapper = (x: number, y: number): Optional<ChessPiece> => {
     if (y === 7) {
-	  	return new ChessPiece(PIECES_ORDER[x], Colour.Black, { x, y })
-	  } else if (y === 6) {
-	  	return new ChessPiece(PieceType.Pawn, Colour.Black, { x, y })
-	  } else if (y === 1) {
-	  	return new ChessPiece(PieceType.Pawn, Colour.White, { x, y })
-	  } else if (y === 0) {
-	  	return new ChessPiece(PIECES_ORDER[x], Colour.White, { x, y })
+      return new ChessPiece(PIECES_ORDER[x], Colour.Black, { x, y });
+    } else if (y === 6) {
+      return new ChessPiece(PieceType.Pawn, Colour.Black, { x, y });
+    } else if (y === 1) {
+      return new ChessPiece(PieceType.Pawn, Colour.White, { x, y });
+    } else if (y === 0) {
+      return new ChessPiece(PIECES_ORDER[x], Colour.White, { x, y });
     }
     
     return null;

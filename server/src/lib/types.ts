@@ -1,5 +1,5 @@
-import { ChessPiece, GameBoard, Position } from "./structs";
-import * as WebSocket from "ws";
+import { ChessPiece, GameBoard, Position } from './structs';
+import * as WebSocket from 'ws';
 
 export type Optional<T> = T | null | undefined;
 export type Direction = 1 | -1;
@@ -27,7 +27,7 @@ export const PIECES_ORDER = [
 	PieceType.Bishop,
 	PieceType.Knight,
 	PieceType.Rook
-]
+];
 
 export interface GameStatus {
 	since: number,
@@ -48,7 +48,7 @@ export interface PieceProps {
 export interface ValidationProps {
 	gameBoard: GameBoard,
 	piece: ChessPiece,
-	direction: (1 | -1),
+	direction: Direction,
 	validMoves: Position[],
 	oneStep: boolean,
 }

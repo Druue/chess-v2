@@ -1,6 +1,6 @@
-import { Colour, PieceType } from "..";
-import { ChessPiece } from ".";
-import WebSocket from "ws";
+import { Colour, PieceType } from '..';
+import { ChessPiece } from '.';
+import WebSocket from 'ws';
 
 export class Player {
 	id: WebSocket;

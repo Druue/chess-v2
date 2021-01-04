@@ -1,5 +1,5 @@
-import { Colour } from './types';
 import { GameBoard } from '../structs';
+import { Colour } from './types';
 
 export const T_GAME_START = 'GAME-START';
 export const O_GAME_START = {
@@ -10,7 +10,7 @@ export const S_GAME_START = JSON.stringify(O_GAME_START);
 export const T_BOARD = 'BOARD';
 export const O_BOARD = {
 	type: T_BOARD,
-	data: new GameBoard(-1)
+	data: new GameBoard()
 };
 
 // Server to client: abort game (e.g. if second player exited the game)

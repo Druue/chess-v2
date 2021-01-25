@@ -11,6 +11,8 @@ import whitePawn from './assets/pieces/white-pawn.png';
 import whiteQueen from './assets/pieces/white-queen.png';
 import whiteRook from './assets/pieces/white-rook.png';
 
+export const ROUTE_HOME = '/';
+export const ROUTE_PLAY = '/play';
 
 export const ICONS: { [key: string]: any } = {
   'BLACK-PAWN': blackPawn,

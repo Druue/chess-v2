@@ -1,8 +1,7 @@
-import { Box, Code, Grid, Link, Text, VStack } from '@chakra-ui/react';
+import { Box, Code, Grid, Text, VStack } from '@chakra-ui/react';
 import React from 'react';
-import { Link as ReactLink } from 'react-router-dom';
-import { ColorModeSwitcher } from '../components/ColorModeSwitcher';
-import { Logo } from '../components/Logo';
+import { ColorModeSwitcher, Link, Logo } from '../components';
+import { ROUTE_PLAY } from '../consts';
 
 export const Home: React.FC = () => {
   console.log('Home Page');
@@ -16,15 +15,7 @@ export const Home: React.FC = () => {
           <Text>
             Edit <Code fontSize="xl"> App.tsx</Code> and save to reload.
           </Text>
-          <Link
-            as={ReactLink}
-            color="teal.500"
-            to="/play"
-            fontSize="2xl"
-            rel="noopener noreferrer"
-          >
-            Play Now!
-          </Link>
+          <Link text="Play Now!" route={ROUTE_PLAY} />
         </VStack>
       </Grid>
     </Box>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as ReactRouter, Route } from 'react-router-dom';
-import { Home } from './pages/Home';
-import { Play } from './pages/Play';
+import { Home, Play } from './pages/';
 
 export const Router: React.FC = () => {
     return (

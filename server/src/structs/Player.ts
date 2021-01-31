@@ -1,6 +1,6 @@
+import WebSocket from 'ws';
 import { Colour, PieceType } from '../lib/types';
 import { ChessPiece } from './ChessPiece';
-import WebSocket from 'ws';
 
 export class Player {
 	id: WebSocket;
@@ -9,7 +9,8 @@ export class Player {
 
 	constructor(id: WebSocket, colour: Colour) {
 		this.id = id;
-		this.colour = colour;
+    this.colour = colour;
+    this.capturedPieces = [];
   }
   
   /**

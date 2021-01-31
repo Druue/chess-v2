@@ -1,57 +1,43 @@
-import { GameBoard } from '../structs';
+import { GameBoard, Position } from '../structs';
 import { Colour } from './types';
 
-export const T_GAME_START = 'GAME-START';
-export const O_GAME_START = {
-	type: T_GAME_START,
-};
-export const S_GAME_START = JSON.stringify(O_GAME_START);
+export interface GameStartMessage {
+  kind: 'game-start'
+}
 
-export const T_BOARD = 'BOARD';
-export const O_BOARD = {
-	type: T_BOARD,
-	data: new GameBoard()
-};
+export interface GameOverMessage {
+  kind: 'game-over'
+}
 
-// Server to client: abort game (e.g. if second player exited the game)
-export const T_GAME_ABORTED = 'GAME-ABORTED';
-export const O_GAME_ABORTED = {
-	type: T_GAME_ABORTED
-};
-export const S_GAME_ABORTED = JSON.stringify(O_GAME_ABORTED);
+export interface GameAbortedMessage {
+  kind: 'game-aborted'
+}
 
-// Server to client: set as player White
-export const T_PLAYER_TYPE = 'PLAYER-TYPE';
-export const O_PLAYER_W = {
-	type: T_PLAYER_TYPE,
-	data: Colour.White
-};
-export const S_PLAYER_W = JSON.stringify(O_PLAYER_W);
+export interface YourTurnMessage {
+  kind: 'your-turn'
+}
 
-// Server to client: set as player Black
-export const O_PLAYER_B = {
-	type: T_PLAYER_TYPE,
-	data: Colour.Black
-};
-export const S_PLAYER_B = JSON.stringify(O_PLAYER_B);
+export interface PlayerTypeMessage {
+  kind: 'player-type'
+  colour: Colour
+}
 
-// Server to Player A & B: game over with result won/loss
-export const T_GAME_OVER = 'GAME-OVER';
-export const O_GAME_OVER = {
-	type: T_GAME_OVER,
-	data: null
-};
+export interface MovePieceMessage {
+  kind: 'move-piece'
+  from: Position
+  to: Position
+}
 
-export const T_MOVE_PIECE = 'MOVE-PIECE';
-export const O_MOVE_PIECE = {
-	type: T_MOVE_PIECE,
-	data: {
-		from: null,
-		to: null
-	}
-};
-export const T_YOUR_TURN = 'YOUR-TURN';
-export const O_YOUR_TURN = {
-	type: T_YOUR_TURN
-};
-export const S_YOUR_TURN = JSON.stringify(O_YOUR_TURN);
+export interface BoardMessage {
+  kind: 'board'
+  data: GameBoard
+}
+
+export type Message = 
+  | GameStartMessage 
+  | GameOverMessage 
+  | GameAbortedMessage 
+  | YourTurnMessage 
+  | PlayerTypeMessage 
+  | MovePieceMessage
+  | BoardMessage

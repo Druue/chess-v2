@@ -1,7 +1,7 @@
-import { O_BOARD, S_YOUR_TURN, T_MOVE_PIECE } from '../lib/messages';
+import * as WebSocket from 'ws';
+import { Message } from '../lib/messages';
 import { Colour, Optional } from '../lib/types';
 import { ChessPiece, GameBoard, Player, Position } from './index';
-import * as WebSocket from 'ws';
 
 export class GameState {
   id: number;
@@ -70,23 +70,27 @@ export class GameState {
     return this.winner != null;
   }
 
-  public messageHandler = (message: any, connection: WebSocket) => {
+  public messageHandler = (incomingMsg: Message, connection: WebSocket) => {
     const currentPlayerIsWhite = this.playerWhite?.id === connection;
+    let message: Message;
 
-    switch (message.type) {
-      case T_MOVE_PIECE:
-        this.movePiece(message.data.from, message.data.to);
+    switch (incomingMsg.kind) {
+      case 'move-piece':
+        this.movePiece(incomingMsg.from, incomingMsg.to);
         this.sendUpdatedBoard();
-        currentPlayerIsWhite ? this.playerBlack?.id.send(S_YOUR_TURN) : this.playerWhite?.id.send(S_YOUR_TURN);
+        message = { kind: 'your-turn' };
+        currentPlayerIsWhite ? this.playerBlack?.id.send(message) : this.playerWhite?.id.send(message);
         break;
     }
   }
 
   public sendUpdatedBoard = () => {
-    const boardMessage = O_BOARD;
-    boardMessage.data = this.gameBoard;
+    const message: Message = {
+      kind: 'board',
+      data: this.gameBoard
+    };
 
-    this.playerBlack?.id.send(JSON.stringify(boardMessage));
-    this.playerWhite?.id.send(JSON.stringify(boardMessage));
+    this.playerBlack?.id.send(JSON.stringify(message));
+    this.playerWhite?.id.send(JSON.stringify(message));
   }
 }

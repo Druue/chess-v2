@@ -1,16 +1,16 @@
-import express from 'express';
-import * as WebSocket from 'ws';
-import * as http from 'http';
 import * as dotenv from 'dotenv';
-
-import { getConnId, Colour, Optional, GameStatus, socketMap, O_BOARD, S_PLAYER_B, S_PLAYER_W, S_YOUR_TURN } from './lib/index';
+import express from 'express';
+import * as http from 'http';
+import * as WebSocket from 'ws';
+import { Colour, GameStatus, getConnId, Message, Optional, socketMap } from './lib/index';
 import { GameState } from './structs';
+
 
 const main = async () => {
   const app = express();
   const server = http.createServer(app);
   const wss = new WebSocket.Server({ server });
-
+  
   dotenv.config();
   const port = process.env.PORT || 2000;
 
@@ -38,6 +38,10 @@ const main = async () => {
 
   let currentGame = new GameState(gameStatus.gamesInitialised++);
   let currentConnectionId = 0;
+  
+  app.get('/', (_req, res) => {
+    res.send('hello world');
+  });
 
   wss.on('connection', (ws: WebSocket) => {
     /**
@@ -48,6 +52,7 @@ const main = async () => {
     socketMap.set(con, currentConnectionId);
     const playerType = currentGame.addPlayer(con);
     currentConnections[0] = currentGame;
+    let message: Message;
 
     console.log(
       'Player %s placed in game %s as %s',
@@ -56,11 +61,17 @@ const main = async () => {
       playerType
     );
 
-    con.send(playerType === Colour.White ? S_PLAYER_W : S_PLAYER_B);
+    message = {
+      kind: 'player-type',
+      colour: (playerType === Colour.White ? Colour.White : Colour.Black)
+    };
+    con.send(JSON.stringify(message));
 
-    const boardMsg = O_BOARD;
-    boardMsg.data = currentGame.gameBoard;
-    con.send(JSON.stringify(boardMsg));
+    message = {
+      kind: 'board',
+      data: currentGame.gameBoard
+    };
+    con.send(JSON.stringify(message));
 
     /*
      * once we have two players, there is no way back;
@@ -68,12 +79,13 @@ const main = async () => {
      * if a player now leaves, the game is aborted (player is not preplaced)
     */
     if (currentGame.hasTwoConnectedPlayers()) {
-      currentGame.playerWhite?.id.send(S_YOUR_TURN);
+      message = { kind: 'your-turn' };
+      currentGame.playerWhite?.id.send(JSON.stringify(message));
       currentGame = new GameState(gameStatus.gamesInitialised++);
     }
 
-    con.on('message', (message) => {
-      const oMsg = JSON.parse(message.toString());
+    con.on('message', (incomingMsg) => {
+      const oMsg = JSON.parse(incomingMsg.toString());
 
       const conId: Optional<number> = getConnId(con);
       const gameObj = currentConnections[conId];
@@ -110,9 +122,12 @@ const main = async () => {
     currentConnectionId++;
   });
 
-  app.listen(port, () => {
+  server.listen(port, () => {
     console.log(`server started on localhost:${port}`);
   });
+
+  // process.on('uncaughtException', () => server.close());
+  process.on('SIGTERM', () => server.close());
 };
 
 main().catch((err) => {

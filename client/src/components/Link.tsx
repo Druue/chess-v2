@@ -5,9 +5,10 @@ import { Link as ReactLink } from 'react-router-dom';
 interface LinkProps {
   text: string;
   route: string;
+  onClick?: () => void;
 }
 
-export const Link: React.FC<LinkProps> = ({text, route}) => {
+export const Link: React.FC<LinkProps> = ({ text, route, onClick }) => {
     return (
       <ChakraLink
         as={ReactLink}
@@ -15,6 +16,7 @@ export const Link: React.FC<LinkProps> = ({text, route}) => {
         to={route}
         fontSize="2xl"
         rel="noopener noreferrer"
+        onClick={onClick}
       >
         {text}
       </ChakraLink>

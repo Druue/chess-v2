@@ -1,3 +1,4 @@
+import { GameBoard } from './models/GameBoard';
 import { Position } from './models/Position';
 import { Colour } from './types';
 
@@ -13,8 +14,8 @@ export interface GameAbortedMessage {
   kind: 'game-aborted'
 }
 
-export interface ChangeTurnMessage {
-  kind: 'change-turn'
+export interface YourTurnMessage {
+  kind: 'your-turn'
 }
 
 export interface PlayerTypeMessage {
@@ -28,13 +29,19 @@ export interface MovePieceMessage {
   to: Position
 }
 
+export interface BoardMessage {
+  kind: 'board'
+  data: GameBoard
+}
+
 export type Message = 
   | GameStartMessage 
   | GameOverMessage 
   | GameAbortedMessage 
-  | ChangeTurnMessage 
+  | YourTurnMessage 
   | PlayerTypeMessage 
   | MovePieceMessage
+  | BoardMessage
 
 // Now you can do
 // const msg: Message = JSON.parse(something);

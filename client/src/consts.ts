@@ -29,6 +29,11 @@ export const ICONS: { [key: string]: any } = {
   'WHITE-KNIGHT': whiteKnight
 };
 
+export const PLAYER_VIEWS: { [key: string]: string } = {
+  'BLACK': 'rotate(180deg)',
+  'WHITE': 'rotate(0deg)'
+};
+
 export const PORT = 2000;
 export const WEB_SOCKET_BASE_URL = 'ws://localhost:';
 export const WEB_SOCKET_URL = `${WEB_SOCKET_BASE_URL}${PORT}`;

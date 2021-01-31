@@ -9,16 +9,14 @@ interface PieceProps {
   icon?: any
 }
 
-export class Piece extends React.Component<PieceProps> {
-  render() {
-    return (
-      <div className='piece'>
-          <img
-            className='chess-piece'
-            src={this.props.icon}
-            alt={`${this.props.colour}-${this.props.type}`}
-          />
-      </div>
-    );
-  }
-}
+export const Piece: React.FC<PieceProps> = ({ icon, colour, type }) => {
+  return (
+    <div className='piece'>
+      <img
+        className='chess-piece'
+        src={icon}
+        alt={`${colour}-${type}`}
+      />
+    </div>
+  );
+};

@@ -1,9 +1,9 @@
 import { Box, Grid, VStack } from '@chakra-ui/react';
 import WebSocket from 'isomorphic-ws';
 import React, { useEffect, useState } from 'react';
-import { ColorModeSwitcher, Link } from '../components';
+import { Board, ColorModeSwitcher, Link } from '../components';
 import { Popup } from '../components/Popup';
-import { ROUTE_HOME, WEB_SOCKET_URL } from '../consts';
+import { PLAYER_VIEWS, ROUTE_HOME, WEB_SOCKET_URL } from '../consts';
 import { Game } from '../Game';
 import { Message } from '../messages';
 
@@ -85,6 +85,12 @@ export const Play: React.FC<PlayProps> = () => {
             text={`You are playing as ${game.playerType}`} 
           />
         }
+        { game.playerType && game.board
+          && <Board
+            
+            playerView={PLAYER_VIEWS[game.playerType]}
+            board={game.board.gameBoard}
+          />}
         <Link text="Home Page" route={ROUTE_HOME} />
         </VStack>
       </Grid>

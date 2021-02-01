@@ -38,7 +38,7 @@ export class GameState {
    * 
    * @returns A boolean value on playerBlack's existence.
    */
-  public hasTwoConnectedPlayers = (): boolean => this.playerBlack != null;
+  public hasTwoConnectedPlayers = (): boolean => !!this.playerBlack;
   
   /**
    * Attempts to connect the given websocket to the game.
@@ -80,6 +80,10 @@ export class GameState {
         this.sendUpdatedBoard();
         message = { kind: 'your-turn' };
         currentPlayerIsWhite ? this.playerBlack?.id.send(message) : this.playerWhite?.id.send(message);
+        break;
+
+      case 'game-aborted':
+
         break;
     }
   }

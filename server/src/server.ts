@@ -56,8 +56,8 @@ const main = async () => {
 
     console.log(
       'Player %s placed in game %s as %s',
-      currentConnectionId,
-      currentGame.id,
+      currentConnectionId + 1,
+      currentGame.id + 1,
       playerType
     );
 
@@ -65,6 +65,7 @@ const main = async () => {
       kind: 'player-type',
       colour: (playerType === Colour.White ? Colour.White : Colour.Black)
     };
+    console.log(`Sending player type ${message.colour}`);
     con.send(JSON.stringify(message));
 
     message = {
@@ -84,22 +85,29 @@ const main = async () => {
       currentGame = new GameState(gameStatus.gamesInitialised++);
     }
 
-    con.on('message', (incomingMsg) => {
-      const oMsg = JSON.parse(incomingMsg.toString());
+    con.on('message', (eventMsg) => {
+      const incomingMsg: Message = JSON.parse(eventMsg.toString());
+
+      if (incomingMsg.kind === 'game-aborted' || incomingMsg.kind ==='game-over') {
+        currentGame = new GameState(gameStatus.gamesInitialised++);
+        return;
+      }
 
       const conId: Optional<number> = getConnId(con);
       const gameObj = currentConnections[conId];
-      gameObj.messageHandler(oMsg, con);
+      gameObj?.messageHandler(incomingMsg, con);
     });
 
     con.on('close', (code) => {
       const conId = getConnId(con);
-      console.log(`${conId} disconnected`);
+      console.log(`${conId + 1} disconnected`);
 
       if (code === 1001) {
         /*
          * if possible, abort the game; if not, the game is already completed
         */
+        console.log(conId);
+        console.log(currentConnections);
         const gameObj = currentConnections[conId];
 
         try {

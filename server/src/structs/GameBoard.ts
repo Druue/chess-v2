@@ -1,14 +1,12 @@
+import { getValidMoves } from '../lib/PieceLogic';
+import { Colour, Optional, PIECES_ORDER, PieceType } from '../lib/types';
 import { ChessPiece } from './ChessPiece';
 import { Position } from './Position';
-import { Colour, Optional, PIECES_ORDER, PieceType} from '../lib/types';
-import { getValidMoves } from '../lib/PieceLogic';
 
 export class GameBoard {
   private gameBoard: Optional<ChessPiece>[][];
 
   constructor(size = 8) {
-    // if (size <= 0) size = 8;
-    console.log(size);
     this.gameBoard = this.generateEmptyBoard(size);
     this.setValidMoves();
   }

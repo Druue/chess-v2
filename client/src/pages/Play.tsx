@@ -1,4 +1,4 @@
-import { Box, Grid } from '@chakra-ui/react';
+import { Box, Grid, VStack } from '@chakra-ui/react';
 import WebSocket from 'isomorphic-ws';
 import React, { useEffect, useState } from 'react';
 import { ColorModeSwitcher, Link } from '../components';
@@ -11,64 +11,74 @@ interface PlayProps {
 
 }
 
-const socket = new WebSocket(WEB_SOCKET_URL);
-
 
 export const Play: React.FC<PlayProps> = () => {
-  const [game, setGame] = useState(new Game(socket));
+  const [game, setGame] = useState(new Game());
+  let message: Message;
   
   useEffect(() => {
     console.log(`Player type updated to: ${game?.playerType}`);
   }, [game.playerType]);
 
-  socket.onopen = () => {
-    socket.send('{}');
-  };
-
-  socket.onmessage = (incomingMsg) => {
-    const message: Message = JSON.parse(incomingMsg.data.toString());
-    console.log(incomingMsg.data);
-    console.log(message.kind);
-
-    switch (message.kind) {
-      case 'your-turn':
-        
-        break;
+  useEffect(() => {
+    const socket = new WebSocket(WEB_SOCKET_URL);
     
-      case 'board':
-        setGame(prevState => {
-          return {
-            ...prevState,
-            board: message.data
-          };
-        });
-        break;
+    socket.onopen = () => {
+      socket.send('{}');
+    };
 
-      case 'player-type':
-        setGame(prevState => {
-          console.log(`New colour recieved: ${message.colour}`);
-          return {
-            ...prevState,
-            playerType: message.colour
-          };
-        });
-        break;
-
-      case 'game-over':
-        break;
-
-      case 'game-aborted':
-        break;
+    socket.onmessage = (eventMsg) => {
+      const incomingMsg: Message = JSON.parse(eventMsg.data.toString());
+      console.log(eventMsg.data);
+      console.log(incomingMsg.kind);
+    
+      switch (incomingMsg.kind) {
+        case 'your-turn':
+          
+          break;
       
-      default:
-        break;
-    }
-  };
+        case 'board':
+          setGame(prevState => {
+            return {
+              ...prevState,
+              board: incomingMsg.data
+            };
+          });
+          break;
+        
+        case 'player-type':
+          setGame(prevState => {
+            console.log(`New colour recieved: ${incomingMsg.colour}`);
+            return {
+              ...prevState,
+              playerType: incomingMsg.colour
+            };
+          });
+          break;
+        
+        case 'game-over':
+          break;
+        
+        case 'game-aborted':
+          break;
+        
+        default:
+          break;
+      }
+    };
+
+    return () => {
+      message = { kind: 'game-aborted' };
+      socket.send(JSON.stringify(message));
+      socket.close();
+    };
+  }, []);
   
   return (
     <Box textAlign="center" fontSize="xl">
       <Grid minH="100vh" p={3}>
         <ColorModeSwitcher justifySelf="flex-end" />
+        <VStack spacing={8}>
         { game.playerType 
           && <Popup
             title='Game Start!'
@@ -76,6 +86,7 @@ export const Play: React.FC<PlayProps> = () => {
           />
         }
         <Link text="Home Page" route={ROUTE_HOME} />
+        </VStack>
       </Grid>
     </Box>
   );

@@ -1,15 +1,12 @@
-import WebSocket from 'ws';
 import { GameBoard } from './models/GameBoard';
 import { Colour, Optional } from './types';
 
 export class Game {
-  socket: WebSocket;
   playerType: Optional<Colour>;
   isActivePlayer: boolean;
   board: Optional<GameBoard>;
 
-  constructor(socket: WebSocket) {
-    this.socket = socket;
+  constructor() {
     this.isActivePlayer = false;
     this.board = null;
   }

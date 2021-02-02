@@ -3,7 +3,7 @@ import WebSocket from 'isomorphic-ws';
 import React, { useEffect, useState } from 'react';
 import { Board, ColorModeSwitcher, Link } from '../components';
 import { Popup } from '../components/Popup';
-import { PLAYER_VIEWS, ROUTE_HOME, WEB_SOCKET_URL } from '../consts';
+import { ROUTE_HOME, WEB_SOCKET_URL } from '../consts';
 import { Game } from '../Game';
 import { Message } from '../messages';
 
@@ -88,7 +88,7 @@ export const Play: React.FC<PlayProps> = () => {
         { game.playerType && game.board
           && <Board
             
-            playerView={PLAYER_VIEWS[game.playerType]}
+            playerType={game.playerType}
             board={game.board.gameBoard}
           />}
         <Link text="Home Page" route={ROUTE_HOME} />

@@ -6,9 +6,10 @@ import { Cell } from './Cell';
 interface RowProps {
   initialColour: Colour;
   row: Optional<ChessPiece>[];
+  viewCorrection: Colour;
 }
 
-export const Row: React.FC<RowProps> = ({initialColour, row}) => {
+export const Row: React.FC<RowProps> = ({initialColour, row, viewCorrection}) => {
   const getBackgroundColour = (mod: boolean) => {
     const colours = {
       WHITE: '#f5debc',
@@ -25,14 +26,14 @@ export const Row: React.FC<RowProps> = ({initialColour, row}) => {
 
   return (
     <>
-    <Cell backgroundColor={getBackgroundColour(false)} chessPiece={row[0]}/>
-    <Cell backgroundColor={getBackgroundColour(true)} chessPiece={row[1]}/>
-    <Cell backgroundColor={getBackgroundColour(false)} chessPiece={row[2]}/>
-    <Cell backgroundColor={getBackgroundColour(true)} chessPiece={row[3]}/>
-    <Cell backgroundColor={getBackgroundColour(false)} chessPiece={row[4]}/>
-    <Cell backgroundColor={getBackgroundColour(true)} chessPiece={row[5]}/>
-    <Cell backgroundColor={getBackgroundColour(false)} chessPiece={row[6]}/>
-    <Cell backgroundColor={getBackgroundColour(true)} chessPiece={row[7]}/>
+    <Cell backgroundColor={getBackgroundColour(false)} chessPiece={row[0]} viewCorrection={viewCorrection}/>
+    <Cell backgroundColor={getBackgroundColour(true)} chessPiece={row[1]} viewCorrection={viewCorrection}/>
+    <Cell backgroundColor={getBackgroundColour(false)} chessPiece={row[2]} viewCorrection={viewCorrection}/>
+    <Cell backgroundColor={getBackgroundColour(true)} chessPiece={row[3]} viewCorrection={viewCorrection}/>
+    <Cell backgroundColor={getBackgroundColour(false)} chessPiece={row[4]} viewCorrection={viewCorrection}/>
+    <Cell backgroundColor={getBackgroundColour(true)} chessPiece={row[5]} viewCorrection={viewCorrection}/>
+    <Cell backgroundColor={getBackgroundColour(false)} chessPiece={row[6]} viewCorrection={viewCorrection}/>
+    <Cell backgroundColor={getBackgroundColour(true)} chessPiece={row[7]} viewCorrection={viewCorrection}/>
     </>
   );
 };

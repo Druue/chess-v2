@@ -30,8 +30,13 @@ export const ICONS: { [key: string]: any } = {
 };
 
 export const PLAYER_VIEWS: { [key: string]: string } = {
-  'BLACK': 'rotate(180deg)',
-  'WHITE': 'rotate(0deg)'
+  'BLACK': 'rotate(90deg)',
+  'WHITE': 'rotate(-90deg)'
+};
+
+export const PIECE_VIEW_CORRECTION: { [key: string]: string } = {
+  'BLACK': 'rotate(-90deg)',
+  'WHITE': 'rotate(90deg)'
 };
 
 export const PORT = 2000;

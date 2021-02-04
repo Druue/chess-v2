@@ -4,21 +4,12 @@ import { Colour, Optional } from './types';
 export class Game {
   playerType: Optional<Colour>;
   isActivePlayer: boolean;
+  hasTwoPlayers: boolean;
   board: Optional<GameBoard>;
 
   constructor() {
     this.isActivePlayer = false;
+    this.hasTwoPlayers = false;
     this.board = null;
-  }
-
-  changeActivePlayer = () => this.isActivePlayer = !this.isActivePlayer;
-
-  setPlayerType = (playerType: Colour) => this.playerType = playerType;
-
-  setBoard = (board: GameBoard) => this.board = board;
-
-  // TODO
-  generateBoard = () => {
-    console.log('Generate Board not yet implemented');
   }
 }

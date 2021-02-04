@@ -51,7 +51,7 @@ const main = async () => {
     const con = ws;
     socketMap.set(con, currentConnectionId);
     const playerType = currentGame.addPlayer(con);
-    currentConnections[0] = currentGame;
+    currentConnections[currentConnectionId] = currentGame;
     let message: Message;
 
     console.log(
@@ -80,6 +80,10 @@ const main = async () => {
      * if a player now leaves, the game is aborted (player is not preplaced)
     */
     if (currentGame.hasTwoConnectedPlayers()) {
+      message = { kind: 'game-start' };
+      currentGame.playerWhite?.id.send(JSON.stringify(message));
+      currentGame.playerBlack?.id.send(JSON.stringify(message));
+
       message = { kind: 'your-turn' };
       currentGame.playerWhite?.id.send(JSON.stringify(message));
       currentGame = new GameState(gameStatus.gamesInitialised++);

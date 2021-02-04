@@ -28,6 +28,7 @@ export class GameState {
     const cell: Optional<ChessPiece> = this.gameBoard.movePiece(start, target);
     if (!cell) return;
 
+    this.gameBoard.setValidMoves();
 		(cell.colour === Colour.White) 
       ? this.playerWhite?.capturePiece(cell)
       : this.playerBlack?.capturePiece(cell);
@@ -79,7 +80,7 @@ export class GameState {
         this.movePiece(incomingMsg.from, incomingMsg.to);
         this.sendUpdatedBoard();
         message = { kind: 'your-turn' };
-        currentPlayerIsWhite ? this.playerBlack?.id.send(message) : this.playerWhite?.id.send(message);
+        currentPlayerIsWhite ? this.playerBlack?.id.send(JSON.stringify(message)) : this.playerWhite?.id.send(JSON.stringify(message));
         break;
 
       case 'game-aborted':

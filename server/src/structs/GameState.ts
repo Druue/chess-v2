@@ -26,9 +26,10 @@ export class GameState {
    */
   public movePiece(start: Position, target: Position): void {
     const cell: Optional<ChessPiece> = this.gameBoard.movePiece(start, target);
+    this.gameBoard.setValidMoves();
+
     if (!cell) return;
 
-    this.gameBoard.setValidMoves();
 		(cell.colour === Colour.White) 
       ? this.playerWhite?.capturePiece(cell)
       : this.playerBlack?.capturePiece(cell);

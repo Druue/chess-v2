@@ -38,12 +38,12 @@ export class GameBoard {
     if (!this.gameBoard[start.x][start.y])
       throw new Error('No piece to move!');
 
-    const piece: Optional<ChessPiece> = this.gameBoard[start.x][start.y];
+    const piece: ChessPiece = this.gameBoard[start.x][start.y]!;
 		this.gameBoard[start.x][start.y] = null;
 
     const targetPiece: Optional<ChessPiece> = this.gameBoard[target.x][target.y];
 		this.gameBoard[target.x][target.y] = piece;
-    piece?.move(target);
+    piece.move(target);
     
     return targetPiece;
   }
